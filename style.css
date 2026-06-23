@@ -1,0 +1,669 @@
+/* 1. Настройки для всего экрана */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffeef2; /* Нежный пастельно-розовый цвет фона */
+    color: #4a3b40; /* Темно-серый цвет текста, чтобы глаза не уставали */
+    margin: 0;
+    padding: 20px;
+    
+    /* Эти 4 строчки магическим образом выравнивают весь сайт ровно по центру экрана */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* 2. Настройки для главного заголовка */
+header h1 {
+    color: #d1496a; /* Красивый малиновый цвет */
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #7d6870;
+}
+
+/* 3. Настройки для центральной карточки (белого блока) */
+main {
+    background: #ffffff; /* Белый фон для контента */
+    padding: 30px;
+    border-radius: 24px; /* Красивые скругленные углы */
+    box-shadow: 0 10px 30px rgba(209, 73, 106, 0.1); /* Мягкая розовая тень */
+    max-width: 450px;
+    width: 100%; /* Чтобы блок идеально сжимался на экранах телефонов */
+    text-align: center;
+    margin: 20px 0;
+}
+
+main h2 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+/* 4. Стилизуем кнопку */
+button {
+    background-color: #d1496a; /* Малиновая кнопка */
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px; /* Делаем кнопку овальной */
+    cursor: pointer; /* Меняет курсор на "пальчик" при наведении */
+    box-shadow: 0 5px 15px rgba(209, 73, 106, 0.3);
+    
+    /* Плавный переход, чтобы кнопка реагировала на мышку мягко */
+    transition: all 0.3s ease; 
+}
+
+/* Что происходит, когда мы наводим мышку на кнопку */
+button:hover {
+    background-color: #b33654; /* Цвет становится чуть темнее */
+    transform: translateY(-3px); /* Кнопка приподнимается вверх на 3 пикселя */
+    box-shadow: 0 8px 20px rgba(209, 73, 106, 0.4); /* Тень становится глубже */
+}
+
+/* Что происходит, когда мы физически кликаем на кнопку */
+button:active {
+    transform: translateY(-1px); /* Кнопка слегка утапливается обратно */
+}
+
+/* 5. Подвал (футер) */
+footer p {
+    font-size: 0.9rem;
+    color: #a39298;
+}
+/* Настройки для заголовка счётчика */
+.counter-container h3 {
+    color: #7d6870;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* Делаем сетку, чтобы плашки встали в один ряд */
+.counter-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* Стиль для каждой отдельной плашки (день, час и т.д.) */
+.counter-item {
+    background-color: #fff0f3; /* Чуть розоватый фон для плашек */
+    padding: 10px;
+    border-radius: 12px;
+    flex: 1; /* Чтобы все плашки были одинаковой ширины */
+}
+
+/* Стиль для больших цифр */
+.counter-item span {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #d1496a;
+    display: block;
+}
+
+/* Стиль для подписей под цифрами */
+.counter-item p {
+    font-size: 0.75rem;
+    margin: 5px 0 0 0;
+    color: #a39298;
+    text-transform: uppercase; /* Делает буквы заглавными */
+    letter-spacing: 1px; /* Раздвигает буквы для красоты */
+}
+/* Контейнер для слайдера */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 350px; /* Ограничиваем ширину, чтобы фотки не были огромными */
+    margin: 20px auto;
+    border-radius: 16px;
+    overflow: hidden; /* Прячет всё, что вылезает за пределы рамки */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Обертка для картинок */
+.slider {
+    position: relative;
+    height: 350px; /* Фиксированная высота для всех фоток */
+    background-color: #f0f0f0;
+}
+
+/* Общий стиль для ВСЕХ картинок в слайдере */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Магия: фотка аккуратно подгоняется под размеры, не растягиваясь */
+    display: none; /* ПО УМОЛЧАНИЮ СКРЫВАЕМ ВСЕ ФОТКИ */
+}
+
+/* Показываем ТОЛЬКО ту фотку, у которой есть класс .active */
+.slide.active {
+    display: block;
+}
+
+/* Стили для стрелочек */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* Центрируем стрелочки по вертикали */
+    background: rgba(255, 255, 255, 0.7); /* Полупрозрачный белый фон */
+    color: #d1496a;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Делаем стрелки круглыми */
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+    padding: 0; /* Сбрасываем внутренние отступы нашей обычной кнопки */
+}
+
+.slider-btn:hover {
+    background: white; /* При наведении стрелка становится ярче */
+}
+
+/* Позиционируем левую и правую стрелки */
+#prev-btn { left: 10px; }
+#next-btn { right: 10px; }
+
+/* ================= СТИЛИ ДЛЯ ПОСТРАНИЧНОГО ЛИСТАНИЯ ================= */
+
+/* По умолчанию прячем все страницы альбома */
+.album-page {
+    display: none;
+    width: 100%;
+}
+
+/* Показываем только ту страницу, у которой есть класс active-page */
+.album-page.active-page {
+    display: block;
+}
+
+/* Контейнер для главных кнопок Назад/Вперед внизу */
+.slides-navigation {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Сделаем нижние кнопки чуть-чуть отличающимися, например, серого цвета, чтобы не путать со стрелками фоток */
+.slides-navigation button {
+    background-color: #7d6870;
+}
+.slides-navigation button:hover {
+    background-color: #4a3b40;
+}
+/* ================= СТИЛИ ДЛЯ СПОЙЛЕРОВ (СЛАЙД 3) ================= */
+
+.spoilers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+/* Кнопка-заголовок спойлера */
+.spoiler-trigger {
+    width: 100%;
+    background-color: #fff0f3 !important; /* Нежно-розовый фон */
+    color: #d1496a !important;
+    text-align: left;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.spoiler-trigger:hover {
+    background-color: #ffe1e6 !important;
+    transform: none !important; /* Отменяем подпрыгивание */
+}
+
+/* Скрытый контент спойлера */
+.spoiler-content {
+    display: none; /* По умолчанию скрыт */
+    padding: 5px 15px;
+    background-color: #ffffff;
+    border-left: 3px solid #d1496a;
+    margin-top: -5px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Класс, который мы будем добавлять через JS, чтобы показать текст */
+.spoiler-item.open .spoiler-content {
+    display: block;
+}
+/* Стиль для фоток внутри спойлеров */
+.spoiler-img {
+    width: 100%;
+    max-width: 320px; /* Ограничим максимальную ширину, чтобы фотка не была гигантской на компе */
+    height: auto;
+    border-radius: 12px; /* Красивые скругленные уголки */
+    margin: 15px auto 5px auto; /* Отступы: сверху побольше, снизу поменьше, по бокам авто (для центровки) */
+    display: block; /* Чтобы сработала автоматическая центровка */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Легкая тень, чтобы фотка смотрелась объемно */
+}
+/* ================= СТИЛИ ДЛЯ ФЛИП-КАРТОЧЕК (СЛАЙД 4) ================= */
+
+.flip-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 25px;
+    perspective: 1000px; /* Включает 3D-пространство */
+}
+
+.flip-card {
+    width: 100%;
+    max-width: 250px;
+    height: 260px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* Когда JS добавит этот класс, карточка развернется на 180 градусов */
+.flip-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Защита для Safari / iOS */
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* Стили лицевой стороны карточки */
+.card-front {
+    background-color: #fff0f3;
+    color: #d1496a;
+    border: 2px dashed #ffe1e6;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.card-front h3 {
+    font-size: 1.05rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Стили обратной стороны (текст признания) */
+.card-back {
+    background-color: #ffffff;
+    color: #4a3b40;
+    transform: rotateY(180deg); /* Изначально развернута назад */
+    border: 2px solid #fff0f3;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+/* ================= ФОН С СЕРДЕЧКАМИ ДЛЯ 4 СЛАЙДА ================= */
+
+.hearts-bg {
+    background-color: #ffffff; /* Белый фон */
+    /* Рисуем бесшовный паттерн из милых нежно-розовых сердечек */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40,25 C40,25 36,17 28,17 C20,17 14,23 14,31 C14,40 26,51 40,63 C54,51 66,40 66,31 C66,23 60,17 52,17 C44,17 40,25 40,25 Z' fill='%23fff0f3'/%3E%3Cpath d='M15,60 C15,60 13,56 9,56 C5,56 2,59 2,63 C2,68 8,73 15,79 C22,73 28,68 28,63 C28,59 25,56 21,56 C17,56 15,60 15,60 Z' fill='%23ffe1e6' opacity='0.7'/%3E%3Cpath d='M70,15 C70,15 68,11 64,11 C60,11 57,14 57,18 C57,23 63,28 70,34 C77,28 83,23 83,18 C83,14 80,11 76,11 C72,11 70,15 70,15 Z' fill='%23ffe1e6' opacity='0.5'/%3E%3C/svg%3E");
+    
+    padding: 30px 15px; /* Внутренние отступы, чтобы контент не прижимался к краям */
+    border-radius: 20px; /* Красивое скругление самого слайда */
+    box-sizing: border-box;
+}
+/* ================= СТИЛИ ДЛЯ СКАНЕРА ЛЮБВИ (ВАРИАНТ 3) ================= */
+.scanner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    height: 360px;
+    position: relative;
+}
+
+/* Эффект мощной встряски всего экрана при взрыве */
+.scanner-container.boom-shake {
+    animation: screenExplosionShake 0.4s ease-in-out;
+}
+
+.scanner-button {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #fff0f3;
+    border: 3px solid #ffe1e6;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(209, 73, 106, 0.1);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.scanner-button.scanning {
+    background: #ffe1e6;
+}
+
+.scanner-icon {
+    font-size: 4.5rem;
+}
+
+.scanner-button.scanning .scanner-icon {
+    animation: heartPulse 0.5s infinite alternate ease-in-out;
+}
+
+.scanner-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #d1496a;
+    box-shadow: 0 0 15px #d1496a, 0 0 5px #d1496a;
+    top: -10px;
+    opacity: 0;
+}
+
+.scanner-button.scanning .scanner-line {
+    opacity: 1;
+    animation: laserScan 1.5s linear infinite;
+}
+
+.scanner-status {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #8a7a80;
+}
+
+.scanner-status.active {
+    color: #d1496a;
+}
+
+.scanner-result-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #d1496a;
+    margin-top: 20px;
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scanner-result-text.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Сами летающие сердечки */
+.scan-particle {
+    position: absolute;
+    font-size: 1.8rem;
+    pointer-events: none;
+    z-index: 20;
+    animation: particleExplode 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes laserScan {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+@keyframes heartPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+}
+
+@keyframes particleExplode {
+    0% { transform: translate(0, 0) scale(0.3); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) scale(1.4) rotate(var(--r)); opacity: 0; }
+}
+
+/* Анимация тряски при взрыве */
+@keyframes screenExplosionShake {
+    0% { transform: translate(0, 0); }
+    15% { transform: translate(-7px, 5px); }
+    30% { transform: translate(7px, -5px); }
+    45% { transform: translate(-5px, -3px); }
+    60% { transform: translate(5px, 3px); }
+    75% { transform: translate(-2px, 1px); }
+    100% { transform: translate(0, 0); }
+}
+/* Четкий, крупный и жирный акцент для главного слова */
+.infinity-highlight {
+    font-family: 'Montserrat', 'Arial Black', sans-serif; /* Мощный современный шрифт */
+    font-weight: 900;              /* Максимальная толщина букв */
+    font-size: 1.5rem;             /* Заметный размер */
+    letter-spacing: 1px;           /* Небольшой аккуратный отступ */
+    color: #b52b4c;                /* Сделали цвет чуть темнее и контрастнее */
+    text-shadow: 2px 2px 0px rgba(255, 240, 243, 1); /* Четкий светлый контур вместо размытого неоно开 */
+    display: inline-block;
+}
+/* ================= СТИЛИ ДЛЯ ИГРЫ (СЛАЙД 6) ================= */
+
+#game-container {
+    width: 100%;
+    max-width: 340px;
+    margin: 15px auto 0;
+    font-family: sans-serif;
+}
+
+#game-box {
+    width: 100%;
+    height: 280px;
+    background: #fff5f7;
+    border: 3px solid #ffe1e6;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden; /* Чтобы препятствия не вылетали за рамки */
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Твой аватар */
+#game-player {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #ffb3c1;
+    background-image: url('photo/boy.jpg'); /* 👈 ЗАМЕНИ НА ПУТЬ К СВОЕМУ ФОТО */
+    background-size: cover;
+    background-position: center;
+    border: 2px solid white;
+    position: absolute;
+    left: 40px;
+    top: 120px;
+    z-index: 5;
+}
+
+/* Препятствие (Проблемы) */
+#game-obstacle {
+    width: 85px;
+    height: 70px;
+    background: #8a7a80;
+    color: white;
+    overflow: visible;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 8px;
+    position: absolute;
+    right: -50px;
+    top: 100px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 4;
+}
+
+/* Аватар девушки (сдвинули чуть правее для баланса и свободного места слева) */
+#game-savior {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #d1496a;
+    background-image: url('photo/girl.jpg'); /* Твоё фото */
+    background-size: cover;
+    background-position: center;
+    border: 3px solid white;
+    position: absolute;
+    bottom: -75px; 
+    left: 75px; /* 👈 Было 35px, стало 75px! Теперь текст не упрётся в левый край */
+    z-index: 6;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(209, 73, 106, 0.3);
+}
+
+/* Облачко с текстом (теперь адаптивное, подстраивается под длинные фразы) */
+.savior-bubble {
+    position: absolute;
+    top: -55px; /* Чуть приподняли, чтобы помещалось две строчки */
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    background: white;
+    color: #d1496a;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 1px solid #ffe1e6;
+    transition: all 0.3s ease;
+    
+    /* Улучшения для текста 🚀 */
+    width: 130px;          /* Задали фиксированную комфортную ширину */
+    white-space: normal;   /* РАЗРЕШИЛИ перенос строк */
+    text-align: center;    /* Выровняли текст по центру */
+    line-height: 1.3;      /* Сделали красивый отступ между строками */
+}
+
+/* Класс активации */
+.savior-bubble.active {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* Хвостик для облачка текста */
+.savior-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: white transparent;
+}
+
+/* Полностью непрозрачный, красивый стартовый/финальный экран */
+#game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff0f3; /* Плотный нежно-розовый цвет, ничего сквозь него не видно */
+    background-image: radial-gradient(#ffccd5 1.5px, transparent 1.5px); /* Милый узор из точек */
+    background-size: 16px 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#overlay-text {
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #b52b4c;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Кнопка старта/перезапуска */
+#game-start-btn {
+    padding: 12px 28px;
+    background: #d1496a;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(209, 73, 106, 0.3);
+    transition: all 0.2s ease;
+}
+
+#game-start-btn:hover {
+    background: #b52b4c;
+    transform: translateY(-1px);
+}
+
+/* Состояние кулдауна (блокировка кнопки от случайного спам-клика) */
+#game-start-btn.cooldown {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Статистика */
+.game-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #8a7a80;
+    font-size: 0.95rem;
+}
