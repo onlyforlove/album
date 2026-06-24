@@ -123,7 +123,10 @@ mainNextBtn.addEventListener('click', function() {
 });
 
 mainPrevBtn.addEventListener('click', function() {
-    showAlbumPage(currentGridPage - 1);
+    // 🛡️ УЧТЕНО: Переключаем назад только если страница КРУПНЕЕ первой (индекс больше 0)
+    if (currentGridPage > 0) {
+        showAlbumPage(currentGridPage - 1);
+    }
 });
 // ================= ЛОГИКА ДЛЯ СПОЙЛЕРОВ (СЛАЙД 3) =================
 
@@ -155,54 +158,84 @@ flipCards.forEach(card => {
         this.classList.toggle('flipped');
     });
 });
-// ================= ЛОГИКА ДЛЯ СКАНЕРА ЛЮБВИ (СЛАЙД 5)=================
+// ================= ЛОГИКА ДЛЯ СКАНЕРА ЛЮБВИ (СЛАЙД 5) =================
 const loveScanner = document.getElementById('love-scanner');
 const scannerStatus = document.getElementById('scanner-status');
 const scannerResult = document.getElementById('scanner-result');
 const scannerContainer = document.querySelector('.scanner-container');
 
-if (loveScanner) {
-    loveScanner.addEventListener('click', function() {
-        loveScanner.classList.add('scanning');
-        if (scannerStatus) scannerStatus.classList.add('active');
-        
-        if (scannerStatus) scannerStatus.innerText = "Инициализация био-датчиков... 7%";
-        
-        setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Сканирование линии жизни... 24%"; }, 1800);
-        setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Анализ пульса и теплоты рук... 43%"; }, 3800);
-        setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Проверка искренности улыбки... 65%"; }, 5800);
-        setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Подсчёт общего уровня счастья... 87%"; }, 7600);
-        setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "ВНИМАНИЕ: Превышение норм... 99%"; }, 9000);
+let scannerTimeouts = []; // Массив для хранения таймеров (чтобы сбрасывать при отпускании)
+let isScanComplete = false; // Флаг: завершено ли сканирование успешно
 
-        // Финальный взрыв на 10-й секунде
-        setTimeout(() => {
+if (loveScanner) {
+    // Функция активации при ЗАЖАТИИ кнопки
+    function startScan(e) {
+        e.preventDefault(); // Защита от лишних свайпов и выделений на смартфонах
+        if (isScanComplete) return; // Если уже успешно отсканировали — выходим
+
+        loveScanner.classList.add('scanning');
+        if (scannerStatus) {
+            scannerStatus.classList.add('active');
+            scannerStatus.style.display = 'block';
+            scannerStatus.innerText = "Инициализация био-датчиков... 7%";
+        }
+
+        // Чистим старые таймеры на всякий пожарный
+        clearScannerTimeouts();
+
+        // Цепочка шагов возвращена на полные 10 секунд удержания
+        scannerTimeouts.push(setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Сканирование линии жизни... 24% счастья"; }, 1800));
+        scannerTimeouts.push(setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Анализ пульса и теплоты рук... 43% счастья"; }, 3800));
+        scannerTimeouts.push(setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Проверка искренности улыбки... 65% счастья"; }, 5800));
+        scannerTimeouts.push(setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "Подсчёт общего уровня счастья... 87% счастья"; }, 7600));
+        scannerTimeouts.push(setTimeout(() => { if (scannerStatus) scannerStatus.innerText = "ВНИМАНИЕ: Превышение норм... 99% счастья"; }, 9000));
+
+        // Финальный "взрыв" ровно на 10-й секунде удержания
+        scannerTimeouts.push(setTimeout(() => {
+            isScanComplete = true; // Фиксируем окончательную победу
             if (loveScanner) loveScanner.classList.remove('scanning');
-            if (scannerStatus) scannerStatus.style.display = 'none'; // Прячем старый статус
+            if (scannerStatus) scannerStatus.style.display = 'none';
             
             if (scannerResult) {
-                // Вставляем текст с красивым словом БЕСКОНЕЧНО
                 scannerResult.innerHTML = `⚠️ СИСТЕМНАЯ ОШИБКА ⚠️<br>Уровень счастья превысил лимит шкалы!<br>❤️ <span class="infinity-highlight">БЕСКОНЕЧНО</span> ❤️`;
-                
-                // Жестко из JS прописываем видимость, если CSS не срабатывает
                 scannerResult.style.opacity = "1";
                 scannerResult.style.transform = "scale(1)";
                 scannerResult.classList.add('show');
             }
             
-            // Меняем иконку внутри кнопки
             const icon = loveScanner ? loveScanner.querySelector('.scanner-icon') : null;
             if (icon) icon.innerText = '❤️‍🔥';
             
-            // Тряска экрана и запуск частиц
             if (scannerContainer) {
                 scannerContainer.classList.add('boom-shake');
                 for (let i = 0; i < 200; i++) {
                     createScannerParticle();
                 }
             }
-        }, 9800);
+        }, 10000));
+    }
 
-    }, { once: true });
+    // Функция ОТМЕНЫ, если палец убрали раньше времени
+    function cancelScan() {
+        if (isScanComplete) return; // Если сканирование уже завершено, прерывать нельзя
+
+        clearScannerTimeouts();
+        loveScanner.classList.remove('scanning');
+        
+        if (scannerStatus) {
+            scannerStatus.innerText = "Сканирование прервано! Держи палец до конца... 📲";
+        }
+    }
+
+    function clearScannerTimeouts() {
+        scannerTimeouts.forEach(t => clearTimeout(t));
+        scannerTimeouts = [];
+    }
+
+    // Универсальные Pointer-события (мышь на ПК + тач на телефонах)
+    loveScanner.addEventListener('pointerdown', startScan);
+    loveScanner.addEventListener('pointerup', cancelScan);
+    loveScanner.addEventListener('pointerleave', cancelScan); // Если увели палец/курсор за пределы кнопки
 }
 
 function createScannerParticle() {
@@ -252,8 +285,9 @@ let velocity = 0;
 let gravity = 0.07;         
 let jumpStrength = -2.2;    
 let obstacleX = 350;
+         
 let obstacleY = 100;
-let obstacleSpeed = 0.8;    
+let obstacleSpeed = 1.4;    
 
 let score = 0;
 let lives = 5; 

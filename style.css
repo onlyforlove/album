@@ -377,10 +377,17 @@ footer p {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
     box-shadow: 0 10px 25px rgba(209, 73, 106, 0.1);
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    
+    /* ТЮНИНГ: Разделяем анимации. Цвет меняется за 0.3с, а сжимается кнопка упруго за 0.15с */
+    transition: transform 0.15s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Эффект зажатия пальца (кнопка упруго вдавливается внутрь экрана) */
+.scanner-button:active {
+    transform: scale(0.93);
 }
 
 .scanner-button.scanning {
@@ -418,10 +425,6 @@ footer p {
     color: #8a7a80;
 }
 
-.scanner-status.active {
-    color: #d1496a;
-}
-
 .scanner-result-text {
     font-size: 1.3rem;
     font-weight: bold;
@@ -448,6 +451,18 @@ footer p {
     animation: particleExplode 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
 }
 
+/* Четкий, крупный и жирный акцент для главного слова */
+.infinity-highlight {
+    font-family: 'Montserrat', 'Arial Black', sans-serif; /* Мощный современный шрифт */
+    font-weight: 900;              /* Максимальная толщина букв */
+    font-size: 1.5rem;             /* Заметный размер */
+    letter-spacing: 1px;           /* Небольшой аккуратный отступ */
+    color: #b52b4c;                /* Сделали цвет чуть темнее и контрастнее */
+    text-shadow: 2px 2px 0px rgba(255, 240, 243, 1); /* Четкий светлый контур вместо размытого неона */
+    display: inline-block;
+}
+
+/* ================= АНИМАЦИИ ================= */
 @keyframes laserScan {
     0% { top: 0%; }
     50% { top: 100%; }
@@ -473,16 +488,6 @@ footer p {
     60% { transform: translate(5px, 3px); }
     75% { transform: translate(-2px, 1px); }
     100% { transform: translate(0, 0); }
-}
-/* Четкий, крупный и жирный акцент для главного слова */
-.infinity-highlight {
-    font-family: 'Montserrat', 'Arial Black', sans-serif; /* Мощный современный шрифт */
-    font-weight: 900;              /* Максимальная толщина букв */
-    font-size: 1.5rem;             /* Заметный размер */
-    letter-spacing: 1px;           /* Небольшой аккуратный отступ */
-    color: #b52b4c;                /* Сделали цвет чуть темнее и контрастнее */
-    text-shadow: 2px 2px 0px rgba(255, 240, 243, 1); /* Четкий светлый контур вместо размытого неоно开 */
-    display: inline-block;
 }
 /* ================= СТИЛИ ДЛЯ ИГРЫ (СЛАЙД 6) ================= */
 
@@ -667,3 +672,80 @@ footer p {
     color: #8a7a80;
     font-size: 0.95rem;
 }
+/* ================= ФОНОВЫЕ СЛОВА ================= */
+
+/* Включаем режим абсолютного позиционирования для страницы, чтобы слова не вылетали за её рамки */
+.sub-words-container {
+    position: relative;
+    overflow: hidden; /* Прячет кусочки слов, если они случайно вылезут за край */
+}
+
+/* Общие настройки для всех фоновых слов */
+.bg-word {
+    position: absolute;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #d1496a;
+    opacity: 0.07; /* 👈 ВОТ ОНА, НЕЖНОСТЬ: слово прозрачно на 93%, едва заметно */
+    z-index: 1;    /* Отправляем на самый задний план, под кнопки и текст */
+    user-select: none;
+    pointer-events: none; /* Чтобы мышка или палец кликали сквозь слова */
+    white-space: nowrap;
+}
+
+/* Делаем так, чтобы заголовки и сканер были ВЫШЕ фоновых слов */
+.sub-words-container h2,
+.sub-words-container p,
+.sub-words-container .scanner-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ================= ФОНОВЫЕ СЛОВА ДЛЯ СЛАЙДА 5 (Сканер) ================= */
+
+.word-1 { top: 12%; left: 8%; transform: rotate(-12deg); font-size: 1.4rem; }
+.word-2 { top: 18%; right: 5%; transform: rotate(15deg); font-size: 1.5rem; }
+.word-3 { top: 42%; left: 3%; transform: rotate(-8deg); font-size: 1.6rem; }
+.word-4 { top: 52%; right: 4%; transform: rotate(8deg); font-size: 1.7rem; }
+.word-5 { bottom: 24%; left: 8%; transform: rotate(10deg); font-size: 1.5rem; }
+.word-6 { bottom: 14%; right: 10%; transform: rotate(-15deg); font-size: 1.6rem; }
+.word-7 { bottom: 4%; left: 25%; transform: rotate(-3deg); font-size: 1.3rem; }
+.word-8 { top: 5%; left: 42%; transform: rotate(4deg); font-size: 1.5rem; }        
+.word-9 { bottom: 35%; right: 14%; transform: rotate(-10deg); font-size: 1.6rem; }  
+.word-10 { bottom: 60%; right: 5%; transform: rotate(-6deg); font-size: 1.4rem; }   
+.word-11 { bottom: 45%; left: 12%; transform: rotate(-6deg); font-size: 1.5rem; }   
+.word-12 { top: 28%; left: 16%; transform: rotate(12deg); font-size: 1.4rem; } 
+
+/* ================= ФОНОВЫЕ СЛОВА ДЛЯ СЛАЙДА 2 (МЕМЫ) ================= */
+
+.word-13 { top: 4%; left: 8%; transform: rotate(-7deg); font-size: 1.2rem; }
+.word-14 { top: 9%; right: 3%; transform: rotate(14deg); font-size: 1.4rem; }
+.word-15 { top: 38%; left: 1%; transform: rotate(5deg); font-size: 1.1rem; }
+.word-16 { top: 57%; right: 6%; transform: rotate(-12deg); font-size: 1.3rem; }
+.word-17 { bottom: 7%; left: 3%; transform: rotate(-4deg); font-size: 1.4rem; }
+.word-18 { bottom: 2%; right: 11%; transform: rotate(8deg); font-size: 1.2rem; }
+
+/* ================= ФОНОВЫЕ СЛОВА ДЛЯ СЛАЙДА 3 (СПОЙЛЕРЫ) ================= */
+
+.word-19 { top: 4%; left: 2%; transform: rotate(-6deg); font-size: 1.3rem; }
+.word-20 { top: 11%; right: 5%; transform: rotate(12deg); font-size: 1.4rem; }
+.word-21 { top: 32%; left: 4%; transform: rotate(8deg); font-size: 1.2rem; }
+.word-22 { top: 48%; right: 3%; transform: rotate(-14deg); font-size: 1.3rem; }
+.word-23 { bottom: 35%; left: 2%; transform: rotate(-5deg); font-size: 1.4rem; }
+.word-24 { bottom: 20%; right: 6%; transform: rotate(10deg); font-size: 1.3rem; }
+.word-25 { bottom: 7%; left: 9%; transform: rotate(4deg); font-size: 1.2rem; }
+.word-26 { bottom: 2%; right: 14%; transform: rotate(-8deg); font-size: 1.5rem; }
+
+/* ================= ФОНОВЫЕ ФРАЗЫ ДЛЯ СЛАЙДА 6 (ФИНАЛ) ================= */
+
+.sub-words-container {
+    position: relative;
+    overflow: hidden !important;
+}
+
+.word-27 { top: 2%; left: 4%; transform: rotate(-2deg); font-size: 1rem; }
+.word-28 { top: 7%; right: 4%; transform: rotate(2deg); font-size: 1rem; }
+.word-29 { top: 14%; left: 3%; transform: rotate(3deg); font-size: 1rem; }
+.word-30 { top: 19%; right: 3%; transform: rotate(-1deg); font-size: 1rem; }
+.word-31 { bottom: 5%; left: 3%; transform: rotate(15deg); font-size: 1rem; }
+.word-32 { bottom: 35%; right: 3%; transform: rotate(-5deg); font-size: 1rem; }
